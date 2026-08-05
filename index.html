@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MC Prompt Studio v1.8</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen p-4 md:p-8 font-sans">
+
+  <div class="max-w-4xl mx-auto bg-slate-900/90 border border-slate-800 p-6 rounded-3xl shadow-2xl backdrop-blur-md">
+    
+    <!-- Header -->
+    <div class="text-center mb-8">
+      <div class="inline-block bg-pink-500/10 border border-pink-500/30 text-pink-300 text-xs px-4 py-1.5 rounded-full font-semibold tracking-wide uppercase mb-3 shadow-inner">
+        ✨ MC Prompt Studio v1.8 (Collection & Full Seasonal Lock)
+      </div>
+      <h1 class="text-3xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-300 to-indigo-400 mb-2">
+        Marshmallow Corner
+      </h1>
+      <p class="text-slate-400 text-sm">Cute Character Brand Prompt Director for Redbubble</p>
+    </div>
+
+    <!-- Main Form Engine -->
+    <div class="space-y-6">
+
+      <!-- Top Controls: Lock Checkbox & Surprise Me Button -->
+      <div class="flex flex-wrap items-center justify-between gap-3 bg-slate-900 p-4 rounded-2xl border border-slate-800">
+        <span class="text-xs font-semibold text-pink-400 uppercase tracking-wider">
+          <i class="fa-solid fa-lock mr-1"></i> Centang kotak "Lock" agar nilai tidak berubah saat di-Random!
+        </span>
+        <button onclick="randomizeAll()" class="text-xs bg-pink-500/20 hover:bg-pink-500/30 text-pink-300 border border-pink-500/40 px-4 py-2 rounded-xl transition flex items-center gap-2 font-medium">
+          <i class="fa-solid fa-dice"></i> Surprise Me! (Randomize Unlocked)
+        </button>
+      </div>
+
+      <!-- 1. Style Engine & Collection Batch Engine -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Style Engine -->
+        <div class="bg-slate-900/60 p-4 rounded-2xl border border-slate-800">
+          <label class="block text-sm font-semibold text-purple-300 mb-2">
+            🎨 1. Visual Style Engine
+          </label>
+          <select id="styleSelect" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-slate-100 focus:outline-none focus:ring-2 focus:ring-pink-500">
+            <option value="kawaii chibi art style, smooth vector art, clean outline">🌸 Kawaii Chibi Vector (Default)</option>
+            <option value="cute soft 3d clay art style, soft realistic clay texture, handcrafted miniature look, adorable collectible figure">🧸 Soft 3D Clay Art</option>
+            <option value="pastel storybook illustration style, soft textured brushes, cozy children book aesthetic">📚 Pastel Storybook</option>
+            <option value="minimal flat vector illustration, bold clean lineart, vibrant solid colors">⚡ Minimal Flat Vector</option>
+            <option value="cute soft watercolor painting style, gentle color bleeds, artistic paper texture">🎨 Hand-Drawn Watercolor</option>
+          </select>
+        </div>
+
+        <!-- Collection Batch Engine (1 to 5 Prompts) -->
+        <div class="bg-slate-900/60 p-4 rounded-2xl border border-slate-800">
+          <label class="block text-sm font-semibold text-indigo-300 mb-2">
+            📚 2. Collection Mode Size
+          </label>
+          <select id="batchSizeSelect" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <option value="1">1 Prompt Only (Single Design)</option>
+            <option value="2">2 Prompts Collection</option>
+            <option value="3">3 Prompts Collection</option>
+            <option value="4">4 Prompts Collection</option>
+            <option value="5" selected>5 Prompts Collection (Max - Micro Pack)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- 2. Character Engine -->
+      <div class="bg-slate-900/60 p-4 rounded-2xl border border-slate-800">
+        <div class="flex justify-between items-center mb-2">
+          <label class="text-sm font-semibold text-pink-400 flex items-center gap-2">
+            <i class="fa-solid fa-paw"></i> 3. Character Engine
+          </label>
+          <label class="text-xs text-slate-400 flex items-center gap-1 cursor-pointer select-none">
+            <input type="checkbox" id="lock_character" class="rounded border-slate-700 text-pink-500 focus:ring-pink-500"> 
+            <i class="fa-solid fa-lock text-pink-400"></i> Lock Character
+          </label>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <select id="characterSelect" onchange="syncCustomField('characterSelect', 'customCharacterInput')" class="bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-slate-100 focus:outline-none focus:ring-2 focus:ring-pink-500">
+            <option value="Chubby Frog 🐸">Frog 🐸 (Katak)</option>
+            <option value="Chubby Bunny 🐰">Bunny 🐰 (Kelinci)</option>
+            <option value="Chubby Capybara">Capybara</option>
+            <option value="Chubby Elephant 🐘">Elephant 🐘 (Gajah Imut)</option>
+            <option value="Chubby Panda 🐼">Panda 🐼</option>
+            <option value="Chubby Bear 🐻">Bear 🐻 (Beruang)</option>
+            <option value="Chubby Duck 🦆">Duck 🦆 (Bebek)</option>
+            <option value="Chubby Hamster">Hamster</option>
+            <option value="Chubby Corgi 🐶">Corgi 🐶 (Anjing)</option>
+            <option value="Chubby Otter">Otter (Berang-berang)</option>
+            <option value="Chubby Fox 🦊">Fox 🦊 (Rubah)</option>
+            <option value="Chubby Cat 🐱">Cat 🐱 (Kucing)</option>
+            <option value="Chubby Raccoon 🦝">Raccoon 🦝 (Musang)</option>
+            <option value="Chubby Koala 🐨">Koala 🐨</option>
+            <option value="Chubby Penguin 🐧">Penguin 🐧</option>
+            <option value="Chubby Shiba Inu 🐕">Shiba Inu 🐕</option>
+            <option value="Chubby Axolotl 🦎">Axolotl 🦎</option>
+            <option value="Chubby Red Panda 🐼">Red Panda 🐼</option>
+            <option value="Chubby Sloth 🦥">Sloth 🦥 (Kukang)</option>
+            <option value="Chubby Hedgehog 🦔">Hedgehog 🦔 (Landak)</option>
+            <option value="Chubby Piglet 🐷">Piglet 🐷 (Babi Kecil)</option>
+            <option value="custom">-- Ketik Karakter Lain --</option>
+          </select>
+          <input type="text" id="customCharacterInput" placeholder="Contoh: Chubby Deer / Giraffe..." class="bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-slate-100 focus:outline-none focus:ring-2 focus:ring-pink-500 hidden">
+        </div>
+      </div>
+
+      <!-- 3. Border & Pose Engine -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Border -->
+        <div class="bg-slate-900/60 p-4 rounded-2xl border border-slate-800">
+          <label class="block text-sm font-medium text-pink-300 mb-2">4. Border Engine</label>
+          <select id="borderSelect" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-slate-100 focus:outline-none focus:ring-2 focus:ring-pink-500">
+            <option value="shiny holographic iridescent rainbow sticker contour outline border">🌈 Holographic Rainbow</option>
+            <option value="thick clean white die-cut sticker contour outline border">⚪ Putih Tebal Standar (Classic White)</option>
+            <option value="bold black die-cut sticker outline border">🖤 Hitam Bold (Pop Out Black)</option>
+          </select>
+        </div>
+
+        <!-- Pose -->
+        <div class="bg-slate-900/60 p-4 rounded-2xl border border-slate-800">
+          <div class="flex justify-between items-center mb-2">
+            <label class="text-sm font-medium text-slate-300">5. Pose & Action Engine</label>
+            <label class="text-xs text-slate-400 flex items-center gap-1 cursor-pointer select-none">
+              <input type="checkbox" id="lock_pose" class="rounded border-slate-700 text-pink-500 focus:ring-pink-500"> 
+              <i class="fa-solid fa-lock text-pink-400"></i> Lock Pose
+            </label>
+          </div>
+          <select id="poseSelect" onchange="syncCustomField('poseSelect', 'customPoseInput')" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-slate-100 focus:outline-none focus:ring-2 focus:ring-pink-500">
+            <option value="standing cute waving one paw hand, full body pose">Berdiri & Melambaikan Tangan</option>
+            <option value="sitting cozy posture, full body pose">Duduk Santai (Cozy Sitting)</option>
+            <option value="lying down tummy flat sploot posture, full body pose">Rebahan / Tengkurap (Sploot)</option>
+            <option value="peeking curiously from the side frame">Mengintip Penasaran (Peeking)</option>
+            <option value="jumping happily in the air, full body pose">Melompat Ceria (Jumping)</option>
+            <option value="floating held up by a cute pastel balloon">Terbang Pakai Balon</option>
+            <option value="curled up into a round soft ball">Melingkar Bulat (Curled Up Ball)</option>
+            <option value="custom">-- Ketik Pose Custom --</option>
+          </select>
+          <input type="text" id="customPoseInput" placeholder="Contoh: dancing happily, riding a scooter..." class="w-full mt-2 bg-slate-950 border border-slate-700 rounded-xl px-4 py-2 text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-pink-500 hidden">
+        </div>
+      </div>
+
+      <!-- 4. Theme & Prop Engine -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Theme -->
+        <div class="bg-slate-900/60 p-4 rounded-2xl border border-slate-800">
+          <div class="flex justify-between items-center mb-2">
+            <label class="text-sm font-medium text-slate-300">6. Theme / Role Engine</label>
+            <label class="text-xs text-slate-400 flex items-center gap-1 cursor-pointer select-none">
+              <input type="checkbox" id="lock_theme" class="rounded border-slate-700 text-pink-500 focus:ring-pink-500"> 
+              <i class="fa-solid fa-lock text-pink-400"></i> Lock Theme
+            </label>
+          </div>
+          <select id="themeSelect" onchange="syncCustomField('themeSelect', 'customThemeInput')" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-slate-100 focus:outline-none focus:ring-2 focus:ring-pink-500">
+            <option value="Astronaut Space Explorer wearing cute spacesuit and helmet">🚀 Astronaut & Space Adventure</option>
+            <option value="Coffee & Cafe Lover">☕ Coffee & Cafe Lover</option>
+            <option value="Gamer & Tech">🎮 Gamer & Tech</option>
+            <option value="Study & Reading">📖 Study & Bookworm</option>
+            <option value="Chef & Bakery">🧁 Chef & Bakery</option>
+            <option value="Gardening & Plant">🪴 Gardening & Plants</option>
+            <option value="Artist & Painting">🎨 Artist & Painting</option>
+            <option value="Music & Lofi">🎧 Music & Lofi Vibes</option>
+            <option value="Camping & Outdoor">⛺ Camping & Adventure</option>
+            <option value="Travel & Photography">📷 Traveler & Camera</option>
+            <option value="Wizard & Fantasy">🪄 Wizard & Magic</option>
+            <option value="Cozy Sleepyhead">💤 Cozy Sleepyhead</option>
+            <option value="custom">-- Ketik Tema Custom --</option>
+          </select>
+          <input type="text" id="customThemeInput" placeholder="Contoh: Cyberpunk, Superhero, Detective..." class="w-full mt-2 bg-slate-950 border border-slate-700 rounded-xl px-4 py-2 text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-pink-500 hidden">
+        </div>
+
+        <!-- Prop -->
+        <div class="bg-slate-900/60 p-4 rounded-2xl border border-slate-800">
+          <div class="flex justify-between items-center mb-2">
+            <label class="text-sm font-medium text-pink-300">7. Prop Engine (Barang)</label>
+            <label class="text-xs text-slate-400 flex items-center gap-1 cursor-pointer select-none">
+              <input type="checkbox" id="lock_prop" class="rounded border-slate-700 text-pink-500 focus:ring-pink-500"> 
+              <i class="fa-solid fa-lock text-pink-400"></i> Lock Prop
+            </label>
+          </div>
+          <select id="propSelect" onchange="syncCustomField('propSelect', 'customPropInput')" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-slate-100 focus:outline-none focus:ring-2 focus:ring-pink-500">
+            <option value="">-- Polos / Tanpa Barang (Hands Free) --</option>
+            <option value="holding a delicious sweet donut with sprinkles">🍩 Donut / Donat</option>
+            <option value="holding a giant fresh sweet strawberry">🍓 Strawberry / Stroberi</option>
+            <option value="holding a delicious chocolate bar">🍫 Cokelat / Chocolate</option>
+            <option value="holding a paint brush and artist palette">🎨 Alat Lukis (Kuas & Palet)</option>
+            <option value="holding an iced boba tea cup">🧋 Boba Tea / Matcha</option>
+            <option value="holding a warm coffee mug">☕ Cangkir Kopi</option>
+            <option value="playing a retro handheld game console">🎮 Konsol Game Retro</option>
+            <option value="wearing big headphones listening to music">🎧 Headphone</option>
+            <option value="holding a freshly baked croissant">🥐 Croissant</option>
+            <option value="holding a vintage camera">📷 Kamera Vintage</option>
+            <option value="holding a small monstera potted plant">🪴 Tanaman Pot Monstera</option>
+            <option value="using a mini laptop keyboard">💻 Laptop</option>
+            <option value="holding a magic glowing wand">🪄 Tongkat Sihir</option>
+            <option value="holding a tiny cute planet star">⭐ Bintang / Planet Kecil</option>
+            <option value="custom">-- Ketik Barang Custom --</option>
+          </select>
+          <input type="text" id="customPropInput" placeholder="Contoh: holding a slice of pizza, ice cream..." class="w-full mt-2 bg-slate-950 border border-slate-700 rounded-xl px-4 py-2 text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-pink-500 hidden">
+        </div>
+      </div>
+
+      <!-- 5. Season & Emotion Engine -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Season -->
+        <div class="bg-slate-900/60 p-4 rounded-2xl border border-slate-800">
+          <div class="flex justify-between items-center mb-2">
+            <label class="text-sm font-medium text-slate-300">8. Season Engine</label>
+            <label class="text-xs text-slate-400 flex items-center gap-1 cursor-pointer select-none">
+              <input type="checkbox" id="lock_season" class="rounded border-slate-700 text-pink-500 focus:ring-pink-500"> 
+              <i class="fa-solid fa-lock text-pink-400"></i> Lock Season
+            </label>
+          </div>
+          <select id="seasonSelect" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-slate-100 focus:outline-none focus:ring-2 focus:ring-pink-500">
+            <option value="">-- Evergreen (Tanpa Musim) --</option>
+            <option value="in a spooky cute Halloween theme with mini pumpkins around">Halloween Event</option>
+            <option value="in a cozy Christmas theme, wearing a tiny Santa hat and winter sweater">Christmas / Winter</option>
+            <option value="in a bright Summer theme, wearing sunglasses on a beach vibe">Summer Beach</option>
+            <option value="in a sweet Valentine theme with floating pastel hearts">Valentine / Love</option>
+            <option value="in a cozy Autumn theme with falling golden maple leaves">Autumn / Fall</option>
+            <option value="in a Spring blooming theme with cherry blossom flowers">Spring Blossom</option>
+          </select>
+        </div>
+
+        <!-- Emotion -->
+        <div class="bg-slate-900/60 p-4 rounded-2xl border border-slate-800">
+          <div class="flex justify-between items-center mb-2">
+            <label class="text-sm font-medium text-slate-300">9. Emotion Engine</label>
+            <label class="text-xs text-slate-400 flex items-center gap-1 cursor-pointer select-none">
+              <input type="checkbox" id="lock_emotion" class="rounded border-slate-700 text-pink-500 focus:ring-pink-500"> 
+              <i class="fa-solid fa-lock text-pink-400"></i> Lock Emotion
+            </label>
+          </div>
+          <select id="emotionSelect" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-slate-100 focus:outline-none focus:ring-2 focus:ring-pink-500">
+            <option value="happy joyful smiling face">Happy / Ceria</option>
+            <option value="sleepy cozy blob face, lazy posture">Sleepy / Santai</option>
+            <option value="excited sparkling eyes">Excited / Antusias</option>
+            <option value="shy blushing cheeks face">Shy / Malu Blushing</option>
+            <option value="funny angry cute pouting face">Angry Cute / Cemberut Imut</option>
+            <option value="relaxed peaceful closed-eye expression">Relaxed / Tenang</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Tombol Generate Collection -->
+      <button onclick="generateCollection()" class="w-full mt-4 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 hover:opacity-95 text-white font-bold py-4 rounded-2xl transition duration-200 shadow-xl shadow-pink-500/20 flex items-center justify-center gap-2 text-lg">
+        <i class="fa-solid fa-wand-magic-sparkles"></i> Generate Collection Prompts
+      </button>
+
+    </div>
+
+    <!-- Output Section -->
+    <div id="outputSection" class="mt-8 hidden space-y-4">
+      <div class="flex justify-between items-center">
+        <label class="block text-sm font-semibold text-pink-300">
+          🚀 Generated Prompts (Micro-Collection Ready):
+        </label>
+        <button onclick="copyAllPrompts()" id="copyAllBtn" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 px-3 py-1.5 rounded-lg transition">
+          <i class="fa-regular fa-copy mr-1"></i> Salin Semua Prompt
+        </button>
+      </div>
+
+      <!-- Container tempat daftar prompt muncul -->
+      <div id="promptsContainer" class="space-y-3"></div>
+
+      <!-- Tombol Aksi: Salin & Buka Gemini (Kembali Berfungsi) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
+        <button onclick="copyAllPrompts()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-sm font-semibold py-3.5 rounded-xl transition flex items-center justify-center gap-2">
+          <i class="fa-regular fa-copy"></i> Salin Semua Prompt
+        </button>
+        <a id="geminiBtn" href="https://gemini.google.com/" target="_blank" onclick="copyAllPrompts()" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-sm font-semibold py-3.5 rounded-xl transition flex items-center justify-center gap-2 shadow-lg text-center">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i> Salin Semua & Buka Gemini
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Universal Handler untuk input custom
+    function syncCustomField(selectId, inputId) {
+      const select = document.getElementById(selectId);
+      const input = document.getElementById(inputId);
+      if (select.value === 'custom') {
+        input.classList.remove('hidden');
+        input.focus();
+      } else {
+        input.classList.add('hidden');
+      }
+    }
+
+    function getValueOrCustom(selectId, inputId, defaultVal) {
+      const selectVal = document.getElementById(selectId).value;
+      if (selectVal === 'custom') {
+        const customVal = document.getElementById(inputId).value.trim();
+        return customVal || defaultVal;
+      }
+      return selectVal;
+    }
+
+    // Utility: Mengambil opsi acak dari elemen Select (Anti Custom Option)
+    function getRandomOption(selectId) {
+      const select = document.getElementById(selectId);
+      const options = Array.from(select.options).filter(opt => opt.value !== 'custom');
+      const randomIndex = Math.floor(Math.random() * options.length);
+      return options[randomIndex].value;
+    }
+
+    // RANDOMIZER DENGAN RANDOM LOCK ENGINE (Termasuk Season Lock)
+    function randomizeAll() {
+      const lockMap = [
+        { lockId: 'lock_character', selectId: 'characterSelect', inputId: 'customCharacterInput' },
+        { lockId: 'lock_pose', selectId: 'poseSelect', inputId: 'customPoseInput' },
+        { lockId: 'lock_theme', selectId: 'themeSelect', inputId: 'customThemeInput' },
+        { lockId: 'lock_prop', selectId: 'propSelect', inputId: 'customPropInput' },
+        { lockId: 'lock_season', selectId: 'seasonSelect', inputId: null },
+        { lockId: 'lock_emotion', selectId: 'emotionSelect', inputId: null }
+      ];
+
+      lockMap.forEach(item => {
+        const isLocked = document.getElementById(item.lockId).checked;
+        if (!isLocked) {
+          const select = document.getElementById(item.selectId);
+          select.value = getRandomOption(item.selectId);
+          if (item.inputId) syncCustomField(item.selectId, item.inputId);
+        }
+      });
+
+      // Border selalu acak jika di-surprise me
+      document.getElementById('borderSelect').value = getRandomOption('borderSelect');
+
+      generateCollection();
+    }
+
+    // COLLECTION ENGINE WITH ANTI-DUPLICATE RULE
+    function generateCollection() {
+      const batchSize = parseInt(document.getElementById('batchSizeSelect').value);
+      const style = document.getElementById('styleSelect').value;
+      const border = document.getElementById('borderSelect').value;
+
+      // Nilai dasar yang dipilih user
+      const baseCharacter = getValueOrCustom('characterSelect', 'customCharacterInput', 'Chubby Animal');
+      const basePose = getValueOrCustom('poseSelect', 'customPoseInput', 'standing cute pose');
+      const baseTheme = getValueOrCustom('themeSelect', 'customThemeInput', 'Cute Theme');
+      const baseProp = getValueOrCustom('propSelect', 'customPropInput', '');
+      const baseSeason = document.getElementById('seasonSelect').value;
+      const baseEmotion = document.getElementById('emotionSelect').value;
+
+      // Status Kunci
+      const isCharacterLocked = document.getElementById('lock_character').checked;
+      const isPoseLocked = document.getElementById('lock_pose').checked;
+      const isThemeLocked = document.getElementById('lock_theme').checked;
+      const isPropLocked = document.getElementById('lock_prop').checked;
+      const isSeasonLocked = document.getElementById('lock_season').checked;
+      const isEmotionLocked = document.getElementById('lock_emotion').checked;
+
+      let collectionPrompts = [];
+      let usedCombos = new Set();
+
+      for (let i = 0; i < batchSize; i++) {
+        let charVal, poseVal, themeVal, propVal, seasonVal, emotionVal;
+        let attempts = 0;
+
+        // Loop Anti Duplicate Engine
+        do {
+          charVal = (i === 0 || isCharacterLocked) ? baseCharacter : getRandomOption('characterSelect');
+          poseVal = (i === 0 || isPoseLocked) ? basePose : getRandomOption('poseSelect');
+          themeVal = (i === 0 || isThemeLocked) ? baseTheme : getRandomOption('themeSelect');
+          propVal = (i === 0 || isPropLocked) ? baseProp : getRandomOption('propSelect');
+          seasonVal = (i === 0 || isSeasonLocked) ? baseSeason : getRandomOption('seasonSelect');
+          emotionVal = (i === 0 || isEmotionLocked) ? baseEmotion : getRandomOption('emotionSelect');
+          
+          attempts++;
+        } while (usedCombos.has(`${charVal}-${poseVal}-${themeVal}-${propVal}-${seasonVal}-${emotionVal}`) && attempts < 20);
+
+        usedCombos.add(`${charVal}-${poseVal}-${themeVal}-${propVal}-${seasonVal}-${emotionVal}`);
+
+        // Konstruksi Prompt
+        let promptArr = [];
+        promptArr.push(`High resolution 8K die-cut sticker illustration of a single isolated ${charVal}`);
+        promptArr.push(`chubby round fat body shape`);
+        promptArr.push(`${style}`);
+        promptArr.push(`${poseVal}`);
+        promptArr.push(`${emotionVal}`);
+        promptArr.push(`theme of ${themeVal}`);
+        if (propVal) promptArr.push(`${propVal}`);
+        if (seasonVal) promptArr.push(`${seasonVal}`);
+        promptArr.push(`${border}`);
+        promptArr.push(`warm soft cozy lighting, centered composition, isolated on a solid plain white background`);
+
+        collectionPrompts.push(promptArr.join(", "));
+      }
+
+      renderOutput(collectionPrompts);
+    }
+
+    // Render Hasil ke UI
+    function renderOutput(prompts) {
+      const container = document.getElementById('promptsContainer');
+      container.innerHTML = '';
+
+      prompts.forEach((promptText, index) => {
+        const box = document.createElement('div');
+        box.className = "bg-slate-950 border border-slate-800 rounded-xl p-4 relative group hover:border-pink-500/50 transition";
+        box.innerHTML = `
+          <div class="flex justify-between items-center mb-2">
+            <span class="text-xs font-bold text-pink-400 uppercase tracking-wider">Prompt ${index + 1}</span>
+            <button onclick="copySinglePrompt('prompt_${index}')" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-2.5 py-1 rounded-lg transition">
+              <i class="fa-regular fa-copy"></i> Salin
+            </button>
+          </div>
+          <textarea id="prompt_${index}" readonly rows="3" class="w-full bg-transparent text-pink-300 font-mono text-xs leading-relaxed focus:outline-none resize-none">${promptText}</textarea>
+        `;
+        container.appendChild(box);
+      });
+
+      document.getElementById('outputSection').classList.remove('hidden');
+    }
+
+    // Fungsi Copy Single & All
+    function copySinglePrompt(id) {
+      const textarea = document.getElementById(id);
+      textarea.select();
+      document.execCommand('copy');
+      alert('Prompt berhasil disalin!');
+    }
+
+    function copyAllPrompts() {
+      const container = document.getElementById('promptsContainer');
+      const textareas = container.querySelectorAll('textarea');
+      let allText = [];
+      textareas.forEach((ta, idx) => allText.push(`[Prompt ${idx + 1}]\n${ta.value}`));
+      
+      const dummy = document.createElement('textarea');
+      document.body.appendChild(dummy);
+      dummy.value = allText.join('\n\n');
+      dummy.select();
+      document.execCommand('copy');
+      document.body.removeChild(dummy);
+
+      const btn = document.getElementById('copyAllBtn');
+      if (btn) {
+        btn.innerHTML = `<i class="fa-solid fa-check text-green-400"></i> Semua Tersalin!`;
+        setTimeout(() => {
+          btn.innerHTML = `<i class="fa-regular fa-copy mr-1"></i> Salin Semua Prompt`;
+        }, 2000);
+      }
+    }
+  </script>
+</body>
+</html>
