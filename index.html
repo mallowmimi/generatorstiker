@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MC Prompt Studio v1.8</title>
+  <title>MallowMimi Prompt Generator v1.9</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -14,10 +14,10 @@
     <!-- Header -->
     <div class="text-center mb-8">
       <div class="inline-block bg-pink-500/10 border border-pink-500/30 text-pink-300 text-xs px-4 py-1.5 rounded-full font-semibold tracking-wide uppercase mb-3 shadow-inner">
-        ✨ MC Prompt Studio v1.8 (Collection & Full Seasonal Lock)
+        ✨ MallowMimi Prompt Generator v1.9 (Collection & Seasonal Engine)
       </div>
       <h1 class="text-3xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-300 to-indigo-400 mb-2">
-        Marshmallow Corner
+        MallowMimi
       </h1>
       <p class="text-slate-400 text-sm">Cute Character Brand Prompt Director for Redbubble</p>
     </div>
@@ -79,7 +79,6 @@
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
           <select id="characterSelect" onchange="syncCustomField('characterSelect', 'customCharacterInput')" class="bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-slate-100 focus:outline-none focus:ring-2 focus:ring-pink-500">
-            <option value="Chubby Frog 🐸">Frog 🐸 (Katak)</option>
             <option value="Chubby Bunny 🐰">Bunny 🐰 (Kelinci)</option>
             <option value="Chubby Capybara">Capybara</option>
             <option value="Chubby Elephant 🐘">Elephant 🐘 (Gajah Imut)</option>
@@ -264,13 +263,13 @@
       <!-- Container tempat daftar prompt muncul -->
       <div id="promptsContainer" class="space-y-3"></div>
 
-      <!-- Tombol Aksi: Salin & Buka Gemini (Kembali Berfungsi) -->
+      <!-- Tombol Aksi Utama -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
         <button onclick="copyAllPrompts()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-sm font-semibold py-3.5 rounded-xl transition flex items-center justify-center gap-2">
           <i class="fa-regular fa-copy"></i> Salin Semua Prompt
         </button>
-        <a id="geminiBtn" href="https://gemini.google.com/" target="_blank" onclick="copyAllPrompts()" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-sm font-semibold py-3.5 rounded-xl transition flex items-center justify-center gap-2 shadow-lg text-center">
-          <i class="fa-solid fa-arrow-up-right-from-square"></i> Salin Semua & Buka Gemini
+        <a id="geminiBtn" href="https://gemini.google.com/" target="_blank" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-sm font-semibold py-3.5 rounded-xl transition flex items-center justify-center gap-2 shadow-lg text-center">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i> Buka Gemini
         </a>
       </div>
     </div>
@@ -307,7 +306,7 @@
       return options[randomIndex].value;
     }
 
-    // RANDOMIZER DENGAN RANDOM LOCK ENGINE (Termasuk Season Lock)
+    // RANDOMIZER DENGAN RANDOM LOCK ENGINE
     function randomizeAll() {
       const lockMap = [
         { lockId: 'lock_character', selectId: 'characterSelect', inputId: 'customCharacterInput' },
@@ -327,9 +326,7 @@
         }
       });
 
-      // Border selalu acak jika di-surprise me
       document.getElementById('borderSelect').value = getRandomOption('borderSelect');
-
       generateCollection();
     }
 
@@ -339,7 +336,6 @@
       const style = document.getElementById('styleSelect').value;
       const border = document.getElementById('borderSelect').value;
 
-      // Nilai dasar yang dipilih user
       const baseCharacter = getValueOrCustom('characterSelect', 'customCharacterInput', 'Chubby Animal');
       const basePose = getValueOrCustom('poseSelect', 'customPoseInput', 'standing cute pose');
       const baseTheme = getValueOrCustom('themeSelect', 'customThemeInput', 'Cute Theme');
@@ -347,7 +343,6 @@
       const baseSeason = document.getElementById('seasonSelect').value;
       const baseEmotion = document.getElementById('emotionSelect').value;
 
-      // Status Kunci
       const isCharacterLocked = document.getElementById('lock_character').checked;
       const isPoseLocked = document.getElementById('lock_pose').checked;
       const isThemeLocked = document.getElementById('lock_theme').checked;
@@ -362,7 +357,6 @@
         let charVal, poseVal, themeVal, propVal, seasonVal, emotionVal;
         let attempts = 0;
 
-        // Loop Anti Duplicate Engine
         do {
           charVal = (i === 0 || isCharacterLocked) ? baseCharacter : getRandomOption('characterSelect');
           poseVal = (i === 0 || isPoseLocked) ? basePose : getRandomOption('poseSelect');
@@ -376,7 +370,6 @@
 
         usedCombos.add(`${charVal}-${poseVal}-${themeVal}-${propVal}-${seasonVal}-${emotionVal}`);
 
-        // Konstruksi Prompt
         let promptArr = [];
         promptArr.push(`High resolution 8K die-cut sticker illustration of a single isolated ${charVal}`);
         promptArr.push(`chubby round fat body shape`);
@@ -406,7 +399,7 @@
         box.innerHTML = `
           <div class="flex justify-between items-center mb-2">
             <span class="text-xs font-bold text-pink-400 uppercase tracking-wider">Prompt ${index + 1}</span>
-            <button onclick="copySinglePrompt('prompt_${index}')" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-2.5 py-1 rounded-lg transition">
+            <button onclick="copySinglePrompt('prompt_${index}', this)" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-2.5 py-1 rounded-lg transition flex items-center gap-1">
               <i class="fa-regular fa-copy"></i> Salin
             </button>
           </div>
@@ -418,32 +411,47 @@
       document.getElementById('outputSection').classList.remove('hidden');
     }
 
-    // Fungsi Copy Single & All
-    function copySinglePrompt(id) {
+    // Fungsi Copy Modern (Async Clipboard API)
+    async function copySinglePrompt(id, btnElement) {
       const textarea = document.getElementById(id);
-      textarea.select();
-      document.execCommand('copy');
-      alert('Prompt berhasil disalin!');
+      try {
+        await navigator.clipboard.writeText(textarea.value);
+        const originalText = btnElement.innerHTML;
+        btnElement.innerHTML = `<i class="fa-solid fa-check text-green-400"></i> Tersalin!`;
+        setTimeout(() => {
+          btnElement.innerHTML = originalText;
+        }, 1500);
+      } catch (err) {
+        textarea.select();
+        document.execCommand('copy');
+      }
     }
 
-    function copyAllPrompts() {
+    async function copyAllPrompts() {
       const container = document.getElementById('promptsContainer');
       const textareas = container.querySelectorAll('textarea');
       let allText = [];
       textareas.forEach((ta, idx) => allText.push(`[Prompt ${idx + 1}]\n${ta.value}`));
       
-      const dummy = document.createElement('textarea');
-      document.body.appendChild(dummy);
-      dummy.value = allText.join('\n\n');
-      dummy.select();
-      document.execCommand('copy');
-      document.body.removeChild(dummy);
+      const combinedText = allText.join('\n\n');
+
+      try {
+        await navigator.clipboard.writeText(combinedText);
+      } catch (err) {
+        const dummy = document.createElement('textarea');
+        document.body.appendChild(dummy);
+        dummy.value = combinedText;
+        dummy.select();
+        document.execCommand('copy');
+        document.body.removeChild(dummy);
+      }
 
       const btn = document.getElementById('copyAllBtn');
       if (btn) {
+        const originalText = btn.innerHTML;
         btn.innerHTML = `<i class="fa-solid fa-check text-green-400"></i> Semua Tersalin!`;
         setTimeout(() => {
-          btn.innerHTML = `<i class="fa-regular fa-copy mr-1"></i> Salin Semua Prompt`;
+          btn.innerHTML = originalText;
         }, 2000);
       }
     }
